@@ -9,6 +9,6 @@ namespace HastaLaVista.Services
 {
     public interface IHastaLaVistaRepository
     {
-        Task<string> GetSquashCourst(DateTime when, DateTime from, DateTime to, int duration, IList<Court> courst);
+        Task<string> GetSquashCourst(DateTime when, DateTime from, DateTime to);
     }
 }

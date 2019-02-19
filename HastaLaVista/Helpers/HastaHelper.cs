@@ -10,7 +10,7 @@ namespace HastaLaVista.Helpers
 {
     public class HastaHelper
     {
-        public static List<Court> GetFreeSquashCourts(string hastaResponse)
+        public static List<Court> GetFreeSquashCourts(string hastaResponse, IEnumerable<Court> selectedCourts)
         {
             const string startText = "<tr  data-obie_id=\"1\">";
             const string endText = "32</td></tr>";
@@ -37,11 +37,15 @@ namespace HastaLaVista.Helpers
                     continue;
                 }
 
-                Court court = new Court(courtNumber);
+                if(selectedCourts.Any(c => c.Number == courtNumber && c.Active == false))
+                {
+                    continue;
+                }
 
+                Court court = new Court(courtNumber);
                 var inputNodes = docHelp.DocumentNode.SelectNodes("//td/input");
 
-                if(!inputNodes.Any())
+                if(inputNodes == null || !inputNodes.Any())
                 {
                     continue;
                 }
@@ -54,6 +58,55 @@ namespace HastaLaVista.Helpers
             }
 
             return squash;
+        }
+
+        public static IList<Court> FilterByTimeRange(IList<Court> freeCourts, DateTime godzinaOd, DateTime godzinaDo, int length, int numberOfCourtsToSearch = 1)
+        {
+            IList<Court> retValue = new List<Court>();
+            var freeCourtHoursFound = new List<CourtHours>();
+
+            foreach (Court c in freeCourts)
+            {
+                var resultHours = c.HoursOpen.Where(h => h.TimeFrom >= godzinaOd && h.TimeTo <= godzinaDo).ToList();
+                int minute30 = -1;
+
+                foreach (CourtHours courtHoursFree in resultHours)
+                {
+                    if (freeCourtHoursFound.Count == 0 || length == 0)
+                    {
+                        freeCourtHoursFound.Add(courtHoursFree);
+                        minute30 = 0;
+                    }
+                    else
+                    {
+                        if (freeCourtHoursFound.Last().TimeTo == courtHoursFree.TimeFrom)
+                        {
+                            freeCourtHoursFound.Add(courtHoursFree);
+                            minute30 += 1;
+                        }
+                        else
+                        {
+                            freeCourtHoursFound.Remove(freeCourtHoursFound.Last());
+                            freeCourtHoursFound.Add(courtHoursFree);
+                            minute30 = -1;
+                        }
+                    }
+
+                    if (minute30 == length)
+                    {
+                        retValue.Add(new Court(c.Number, new List<CourtHours>(freeCourtHoursFound)));
+                        break;
+                    }
+                }
+                freeCourtHoursFound.Clear();
+
+                if (numberOfCourtsToSearch == retValue.Count)
+                {
+                    return retValue;
+                }
+            }
+
+            return retValue;
         }
     }
 }

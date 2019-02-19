@@ -11,6 +11,13 @@ namespace HastaLaVista.Models
         public Court(int number)
         {
             Number = number;
+            Active = true;
+        }
+
+        public Court(int number, IList<CourtHours> courtHours)
+            :this(number)
+        {
+            HoursOpen = courtHours;
         }
 
         public int Number { get; set; }
@@ -19,6 +26,42 @@ namespace HastaLaVista.Models
             get { return $"Kort {Number}"; }
         }
         public bool Active { get; set; }
+
         public IList<CourtHours> HoursOpen { get; set; }
+
+        public string ReservedFrom
+        {
+            get
+            {
+                if(HoursOpen != null && HoursOpen.Count > 0)
+                {
+                    return HoursOpen.First().TimeFrom.ToShortTimeString();
+                }
+                else
+                {
+                    return String.Empty;
+                }
+
+            }
+        }
+        public string ReservedTo
+        {
+            get
+            {
+                if (HoursOpen != null && HoursOpen.Count > 0)
+                {
+                    return HoursOpen.Last().TimeTo.ToShortTimeString();
+                }
+                else
+                {
+                return String.Empty;
+            }
+        }
+        }
+
+        public override string ToString()
+        {
+            return $"{Number}_{HoursOpen.First().From}_";
+        }
     }
 }
