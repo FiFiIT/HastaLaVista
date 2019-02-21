@@ -31,7 +31,7 @@
                                  MethodName="CheckForCourts" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid>
+    <Grid x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -39,13 +39,13 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="0"
                FontSize="{Binding TimeFontSize}"
-               Width="250"
-               Height="200"
+               Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}"
                Content="{Binding TimeLeft}"
-               VerticalContentAlignment="Center"
-               VerticalAlignment="Center"
-               Foreground="{Binding TimeForeground}" />
-        <ListBox ItemsSource="{Binding Reservations}" Grid.Row="1"
+               VerticalAlignment="Top"
+               Foreground="{Binding TimeForeground}"
+               Margin="0,20,0,0" />
+        <ListBox ItemsSource="{Binding Reservations}"
+                 Grid.Row="1"
                  ItemTemplate="{DynamicResource ReservationTemplate}">
 
         </ListBox>

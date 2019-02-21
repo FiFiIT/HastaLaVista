@@ -43,7 +43,7 @@ namespace HastaLaVista.Squash
             {
                 aTimer.Stop();
                 Reservations = availableReservations;
-                TimeFontSize = 50;
+                TimeFontSize = 46;
                 TimeLeft = "ZNALEZIONO KORT !!!";
                 TimeForeground = "Red";
             }

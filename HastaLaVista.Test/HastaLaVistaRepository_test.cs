@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HastaLaVista.Services;
 using HastaLaVista.Models;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace HastaLaVista.Test
 {
@@ -15,9 +16,13 @@ namespace HastaLaVista.Test
     public class HastaLaVistaRepository_test
     {
         private HastaLaVistaRepository repo;
+        private string[] polskieDni = { "Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota" };
+        private string[] polskieMiesiace = { "Styczeń", "Luty", "Marzec", "Kwicień", "Maj", "Czerwiec", "Licpiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień" };
         public HastaLaVistaRepository_test()
         {
             repo = new HastaLaVistaRepository();
+
+
         }
 
         private TestContext testContextInstance;
@@ -89,13 +94,24 @@ namespace HastaLaVista.Test
         }
 
         [TestMethod]
-        public void GetSquoushCourts_ForTomorrow_ReturnsTomorrowScheudle()
+        public void GetSquoushCourts_NoInternetConnectivity_ReturnsErrorButWillNotFailed()
         {
             DateTime tomorrow = DateTime.Now.AddDays(1);
             DateTime fromTime = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, 13, 0, 0);
             DateTime toTime = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, 13,30, 0);
 
-            Task<string> response  = repo.GetSquashCourst(tomorrow, fromTime, toTime);
+            //string expected = $"{polskieDni[(int)tomorrow.DayOfWeek]}, {tomorrow.Day} {polskieMiesiace[tomorrow.Month]}, {tomorrow.Year}"; // "Wtorek, 19 Luty, 2019";
+
+            Task<string> response = repo.GetSquashCourst(tomorrow, fromTime, toTime);
+            //response.Wait();
+
+            //HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            //doc.LoadHtml(response.Result.ToString());
+
+            //var actual = doc.GetElementbyId("rez_wybrana_data").GetAttributeValue("value", "");
+
+            //Assert.AreEqual(expected, actual);
+            Assert.Fail();
         }
     }
 }
