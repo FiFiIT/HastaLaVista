@@ -38,28 +38,28 @@ namespace HastaLaVista.Services
 
             return await response.Content.ReadAsStringAsync();
         }
-        public async Task<string> ReserveCourts(DateTime when)
-        {
-            string data = when.Year + "-" + when.Month.ToString("00") + "-" + when.Day.ToString("00");
+        //public async Task<string> ReserveCourts(DateTime when)
+        //{
+        //    string data = when.Year + "-" + when.Month.ToString("00") + "-" + when.Day.ToString("00");
 
-            Dictionary<string, string> values;
-            try
-            {
-                values = new Dictionary<string, string>
-            {
-                { "action", "RezerwujWybraneZapisz" },
-                { "data", $"{data}" },
-                { "REZ", "7_20:00_20:30" },
-                { "REZ[]", "7_20:30_21:00" }
-            };
-            }
-            catch (Exception ex)
-            {
+        //    Dictionary<string, string> values;
+        //    try
+        //    {
+        //        values = new Dictionary<string, string>
+        //    {
+        //        { "action", "RezerwujWybraneZapisz" },
+        //        { "data", $"{data}" },
+        //        { "REZ", "7_20:00_20:30" },
+        //        { "REZ[]", "7_20:30_21:00" }
+        //    };
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                throw;
-            }
+        //        throw;
+        //    }
 
-            return await response.Content.ReadAsStringAsync();
-        }
+        //    return await response.Content.ReadAsStringAsync();
+        //}
     }
 }

@@ -12,7 +12,8 @@
         mc:Ignorable="d"
         Title="HastLaVista"
         Height="350"
-        Width="600">
+        Width="600"
+        Activated="Window_Activated">
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>

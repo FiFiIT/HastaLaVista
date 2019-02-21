@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HastaLaVista.Services;
 using HastaLaVista.Models;
+using System.Threading.Tasks;
 
 namespace HastaLaVista.Test
 {
@@ -85,6 +86,16 @@ namespace HastaLaVista.Test
 
 
             //repo.ReserveCourts(when);
+        }
+
+        [TestMethod]
+        public void GetSquoushCourts_ForTomorrow_ReturnsTomorrowScheudle()
+        {
+            DateTime tomorrow = DateTime.Now.AddDays(1);
+            DateTime fromTime = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, 13, 0, 0);
+            DateTime toTime = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, 13,30, 0);
+
+            Task<string> response  = repo.GetSquashCourst(tomorrow, fromTime, toTime);
         }
     }
 }

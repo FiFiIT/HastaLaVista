@@ -13,7 +13,7 @@ namespace HastaLaVista.Squash
     public class SearchingForCourtsViewModel : BindableBase
     {
         private Timer aTimer;
-        private int timerCountdown = 1 * 10;
+        private int timerCountdown = 1 * 60;
         private int counter;
         private IHastaLaVistaRepository repo;
         private MainWindowViewModel viewModel;
@@ -26,9 +26,11 @@ namespace HastaLaVista.Squash
             StopSearchingCommand = new RelayCommand(OnStopSearching);
             counter = timerCountdown;
 
+            
             aTimer = new Timer();
             aTimer.Interval = 1000;
             aTimer.Tick += ATimer_Tick;
+            ResetTime();
         }
 
         public async void CheckForCourts()
@@ -41,6 +43,9 @@ namespace HastaLaVista.Squash
             {
                 aTimer.Stop();
                 Reservations = availableReservations;
+                TimeFontSize = 50;
+                TimeLeft = "ZNALEZIONO KORT !!!";
+                TimeForeground = "Red";
             }
             else
             {
@@ -74,6 +79,7 @@ namespace HastaLaVista.Squash
 
             if (counter <= 0)
             {
+                aTimer.Stop();
                 CheckForCourts();
             }
             else
@@ -81,7 +87,18 @@ namespace HastaLaVista.Squash
                 counter--;
             }
         }
-
+        private string timeForeground;
+        public string TimeForeground
+        {
+            get { return timeForeground; }
+            set { SetProperty(ref timeForeground, value); }
+        }
+        private int timeFontSize;
+        public int TimeFontSize
+        {
+            get { return timeFontSize; }
+            set { SetProperty(ref timeFontSize, value); }
+        }
         private IList<Court> reservations;
         public IList<Court> Reservations
         {
@@ -107,6 +124,8 @@ namespace HastaLaVista.Squash
         {
             counter = timerCountdown;
             TimeLeft = GetCountdownTimer(counter);
+            TimeFontSize = 32;
+            TimeForeground = "Black";
         }
 
         private IEnumerable<Court> selectedCourts;

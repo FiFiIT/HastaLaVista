@@ -24,5 +24,10 @@ namespace HastaLaVista
         {
             InitializeComponent();
         }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            this.Topmost = true;
+        }
     }
 }
