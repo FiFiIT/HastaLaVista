@@ -6,8 +6,19 @@ using System.Threading.Tasks;
 
 namespace HastaLaVista.Models
 {
-    public class OpenHours
+    public class HastLaVistaPageOpenHours
     {
+        public HastLaVistaPageOpenHours()
+        {
+
+        }
+
+        public HastLaVistaPageOpenHours(int from, int to)
+        {
+            From = from;
+            To = to;
+        }
+
         public int From { get; set; }
         public string FromTime
         {

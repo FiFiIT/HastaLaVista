@@ -10,26 +10,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Timers;
 
 namespace HastaLaVista
 {
     public class MainWindowViewModel : BindableBase
     {
-        private IHastaLaVistaRepository repo = new HastaLaVistaRepository();
+        
         private SquashViewModel squashViewModel = new SquashViewModel();
         private BadmintonViewModel badmintonViewModel = new BadmintonViewModel();
+        private SearchingForCourtsViewModel searchingForCourtsViewModel;
         private HastaLaVistaView hastaLaVistaPlan;
 
         public MainWindowViewModel()
         {
+            searchingForCourtsViewModel = new SearchingForCourtsViewModel(this, new HastaLaVistaRepository());
+
             squashViewModel.ShowMapRequest += NavToHastaLaVistaPlan;
             squashViewModel.SearchForSquashCourtsRequest += SearchForSquashCourts;
         }
 
-        private async void SearchForSquashCourts(List<Court> selectedCourts)
+        private void SearchForSquashCourts(IEnumerable<Court> selectedCourts)
         {
-            Task<string> response = repo.GetSquashCourst(SelectedDate, GodzinaOd, GodzinaDo, Length, selectedCourts);
-            squashViewModel.Courts = new ObservableCollection<Court>(HastaHelper.GetFreeSquashCourts(await response));
+            //aTimer.Elapsed += (sender, e) => ATimer_ElapsedNew(sender, e, selectedCourts);
+
+            searchingForCourtsViewModel.SelectedCourts = selectedCourts;
+            OnNav("SquashSearch");
+        }
+
+        private void StopSearchingForCourts(List<Court> obj)
+        {
+            //aTimer.Stop();
+        }
+
+        private async void ATimer_ElapsedNew(object sender, ElapsedEventArgs e, IEnumerable<Court> selectedCourts)
+        {
+            //Task<string> response = repo.GetSquashCourst(SelectedDate, GodzinaOd, GodzinaDo);
+            //var freeCourts = HastaHelper.GetFreeSquashCourts(await response, selectedCourts);
+            //var availableReservations = HastaHelper.FilterByTimeRange(freeCourts, GodzinaOd, GodzinaDo, Length);
+
+            //if(availableReservations.Count > 0)
+            //{
+            //    aTimer.Stop();
+            //}
         }
 
         private void NavToHastaLaVistaPlan()
@@ -39,7 +63,7 @@ namespace HastaLaVista
                 hastaLaVistaPlan = new HastaLaVistaView();
             }
 
-            if(hastaLaVistaPlan.WindowState == System.Windows.WindowState.Minimized)
+            if (hastaLaVistaPlan.WindowState == System.Windows.WindowState.Minimized)
             {
                 hastaLaVistaPlan.WindowState = System.Windows.WindowState.Normal;
             }
@@ -113,6 +137,9 @@ namespace HastaLaVista
                     break;
                 case "Squash":
                     CurrentActivity = squashViewModel;
+                    break;
+                case "SquashSearch":
+                    CurrentActivity = searchingForCourtsViewModel;
                     break;
             }
 

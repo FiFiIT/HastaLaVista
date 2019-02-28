@@ -12,7 +12,8 @@
         mc:Ignorable="d"
         Title="HastLaVista"
         Height="350"
-        Width="600">
+        Width="600"
+        Activated="Window_Activated">
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
@@ -24,6 +25,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type badminton:BadmintonViewModel}">
             <badminton:BadmintonView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type squash:SearchingForCourtsViewModel}">
+            <squash:SearchingForCourtsView />
         </DataTemplate>
     </Window.Resources>
     <i:Interaction.Triggers>

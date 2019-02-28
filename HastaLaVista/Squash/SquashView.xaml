@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ie="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:conv="clr-namespace:HastaLaVista.Conventers"
              xmlns:local="clr-namespace:HastaLaVista.Squash"
              mc:Ignorable="d"
              d:DesignHeight="300"

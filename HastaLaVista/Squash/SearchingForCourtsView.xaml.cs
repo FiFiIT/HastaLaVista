@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HastaLaVista
+namespace HastaLaVista.Squash
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for SearchingForCourtsView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SearchingForCourtsView : UserControl
     {
-        public MainWindow()
+        public SearchingForCourtsView()
         {
             InitializeComponent();
-        }
-
-        private void Window_Activated(object sender, EventArgs e)
-        {
-            this.Topmost = true;
         }
     }
 }
